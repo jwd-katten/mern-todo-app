@@ -12,7 +12,7 @@ router.post("/", authMiddleware, async (req, res) => {
     const task = new Task({
       title,
       description,
-      user: req.userId
+      user: req.userId,
     });
 
     await task.save();
@@ -21,7 +21,7 @@ router.post("/", authMiddleware, async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({
-      message: "Erreur serveur"
+      message: "Erreur serveur",
     });
   }
 });
@@ -30,14 +30,14 @@ router.post("/", authMiddleware, async (req, res) => {
 router.get("/", authMiddleware, async (req, res) => {
   try {
     const tasks = await Task.find({
-      user: req.userId
+      user: req.userId,
     });
 
     res.json(tasks);
   } catch (error) {
     console.error(error);
     res.status(500).json({
-      message: "Erreur serveur"
+      message: "Erreur serveur",
     });
   }
 });
@@ -50,21 +50,21 @@ router.put("/:id", authMiddleware, async (req, res) => {
     const task = await Task.findOneAndUpdate(
       {
         _id: req.params.id,
-        user: req.userId
+        user: req.userId,
       },
       {
         title,
         description,
-        completed
+        completed,
       },
       {
-        new: true
-      }
+        new: true,
+      },
     );
 
     if (!task) {
       return res.status(404).json({
-        message: "Tâche introuvable"
+        message: "Tâche introuvable",
       });
     }
 
@@ -72,7 +72,7 @@ router.put("/:id", authMiddleware, async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({
-      message: "Erreur serveur"
+      message: "Erreur serveur",
     });
   }
 });
@@ -82,22 +82,22 @@ router.delete("/:id", authMiddleware, async (req, res) => {
   try {
     const task = await Task.findOneAndDelete({
       _id: req.params.id,
-      user: req.userId
+      user: req.userId,
     });
 
     if (!task) {
       return res.status(404).json({
-        message: "Tâche introuvable"
+        message: "Tâche introuvable",
       });
     }
 
     res.json({
-      message: "Tâche supprimée"
+      message: "Tâche supprimée",
     });
   } catch (error) {
     console.error(error);
     res.status(500).json({
-      message: "Erreur serveur"
+      message: "Erreur serveur",
     });
   }
 });
