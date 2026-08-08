@@ -1,7 +1,11 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const authMiddleware = require("./middleware/auth");
 const cors = require("cors");
 require("dotenv").config(); // charge les variables de .env
+
+
+
 const app = express();
 // Middlewares globaux
 app.use(express.json()); // lit le JSON du corps des requêtes
@@ -21,7 +25,9 @@ mongoose
 // Routes
 const taskRoutes = require("./routes/tasks");
 const authRoutes = require("./routes/auth");
-// app.use("/api/tasks", taskRoutes);
+
+
+app.use("/api/tasks", taskRoutes);
 app.use("/api/auth", authRoutes);
 // Démarrage du serveur
 const PORT = process.env.PORT || 3001;
